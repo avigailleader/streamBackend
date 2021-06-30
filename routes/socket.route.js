@@ -1,14 +1,23 @@
-const { createConversation, joinConversation } = require('../services/create-conversation.service');
+const { createConversation, joinConversation, joinAdmin, setStream } = require('../services/create-conversation.service');
+const { sendMessage, sendMessageToAll } = require('../services/create-chat.service');
 const { sendJoinEmail } = require('../services/email.service');
+const ss = require('socket.io-stream');
 
 const onWebSocketConnection = (socket, io) => {
-
-    console.log('a user connected');
-
-    socket.on('create', (data) => {
-        createConversation(socket, data, io);
+    socket.on('send-message', (data) => {
+        console.log('data from send message' + data);
+        sendMessage(socket, data, io)
+    });
+    socket.on('send-message-to-all', (data) => {
+        // console.log('from send-message-to-all:' + data.messageToShare.data);
+        sendMessageToAll(socket, data, io)
     });
 
+    socket.on('create', (data) => {
+
+
+        createConversation(socket, data, io);
+    });
     socket.on('selectParticipate', (data) => {
         sendJoinEmail(data.emailAddress, data.roomId, data.currentUser.email);
     });
@@ -44,6 +53,10 @@ const onWebSocketConnection = (socket, io) => {
         console.log('INIT SEND by ' + socket.id + ' for ' + data)
         peers[data].emit('initSend', socket.id)
     })
+    ss(socket).on('setStream', function (stream) {
+        setStream(stream);
+
+    });
 }
 
 module.exports = {

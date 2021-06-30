@@ -5,6 +5,11 @@ const convarsationSchema = mongoose.Schema({
         type: String,
         require: true
     },
+    localStream: {
+        type: String,
+        require: true
+
+    },
     createdUserId: {
         type: mongoose.Schema.Types.ObjectId, ref: 'User',
         require: true
