@@ -1,4 +1,3 @@
-const { sendJoinEmail } = require('./email.service');
 var roomdata = require('roomdata');
 
 const createConversation = (socket, data, io) => {

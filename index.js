@@ -11,14 +11,7 @@ const { socketServer } = require('./webSocket');
 socketServer(http);
 const { connectDB } = require('./db');
 connectDB();
-const userRouter = require('./routes/user.route');
-const conversationRouter = require('./routes/conversation.route');
-const recordRouter = require('./routes/record.route');
-const contactRouter = require('./routes/contact.route');
 const viewsRouter = require('./routes/views');
-
-const User = require('./models/user.model');
-const { checkPermission, isPermission } = require('./controllers/login.controller');
 const webrtc = require("wrtc");
 
 dotenv.config();
@@ -29,11 +22,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, './build')));
-
-app.use('/api/user', userRouter);
-app.use('/api/conversation', conversationRouter);
-app.use('/api/record', recordRouter);
-app.use('/api/contact', contactRouter);
 
 // app.use('/', (req, res) => {
 //   console.log("🚀 ~ file: index.js ~ line 33 ~ app.get ~ req")
@@ -92,21 +80,11 @@ function handleTrackEvent(e, peer) {
 app.use('/*', viewsRouter)
 
 
-app.use('/:username/isPermission', checkPermission, async (req, res) => {
-  isPermission(req, res);
-  res.status(200).send();
-});
-
 module.exports = {
   app,
   http,
 }
 
-// IT'S ME.. ROI... YOU CAN DELETE THIS IF YOU WANT, BUT YOU MUST HAVE A LISTEMER...
-// app.listen(process
-//   .env.PORT, (err) => {
-//     console.log("server is up!!!!!");
-//   });
 
 http.listen(process.env.PORT, function () {
   console.log('listening on :', process.env.PORT);
