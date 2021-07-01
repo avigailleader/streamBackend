@@ -7,13 +7,15 @@ const path = require("path");
 const request = require("request");
 const cookieParser = require('cookie-parser')
 const dotenv = require("dotenv");
+const apiRouter = require("./routes/api")
 const { socketServer } = require('./webSocket');
 socketServer(http);
 const { connectDB } = require('./db');
 connectDB();
+
 const viewsRouter = require('./routes/views');
 const webrtc = require("wrtc");
-
+app.use('/api', apiRouter)
 dotenv.config();
 app.use(cookieParser());
 app.use(express.static('public'));
