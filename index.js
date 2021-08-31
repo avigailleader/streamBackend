@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, './build')));
 //   // res.redirect("https://accounts.codes/meet/login");
 // });
 app.post("/consumer", async ({ body }, res) => {
-  console.log("aaaaaaaaaaaaaaa");
+  //console.log("aaaaaaaaaaaaaaa");
   const peer = new webrtc.RTCPeerConnection({
     iceServers: [
       {
@@ -38,7 +38,7 @@ app.post("/consumer", async ({ body }, res) => {
       }
     ]
   });
-  console.log(body);
+  //console.log(body);
   const desc = new webrtc.RTCSessionDescription(body.sdp);
   await peer.setRemoteDescription(desc);
   senderStream.getTracks().forEach(track => peer.addTrack(track, senderStream));
@@ -52,8 +52,6 @@ app.post("/consumer", async ({ body }, res) => {
 });
 
 app.post('/broadcast', async ({ body }, res) => {
-  console.log("bbbbbbbbbbbbbbbbbbbbb");
-  console.log(body);
   const peer = new webrtc.RTCPeerConnection({
     iceServers: [
       {
