@@ -1,7 +1,7 @@
 # Stream
-A video streaming application
+A server for video streaming application
 
-# to run this app run
+# to run this server run
 `npm i`
 
 `npm start`
