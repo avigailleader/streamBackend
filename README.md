@@ -1,1 +1,2 @@
-# Leder-Meet
+# Stream
+A video streaming application
